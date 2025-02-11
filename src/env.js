@@ -13,11 +13,11 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
 
-    POSTGRES_URL: z.string().url(),
-    POSTGRES_USER: z.string(),
-    POSTGRES_HOST: z.string(),
-    POSTGRES_PASSWORD: z.string(),
-    POSTGRES_DATABASE: z.string(),
+    DATABASE_POSTGRES_URL: z.string().url(),
+    DATABASE_POSTGRES_USER: z.string(),
+    DATABASE_POSTGRES_HOST: z.string(),
+    DATABASE_POSTGRES_PASSWORD: z.string(),
+    DATABASE_POSTGRES_DATABASE: z.string(),
   },
 
   /**
@@ -36,11 +36,11 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    POSTGRES_URL: process.env.POSTGRES_URL,
-    POSTGRES_USER: process.env.POSTGRES_USER,
-    POSTGRES_HOST: process.env.POSTGRES_HOST,
-    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
-    POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
+    DATABASE_POSTGRES_URL: process.env.DATABASE_POSTGRES_URL,
+    DATABASE_POSTGRES_USER: process.env.DATABASE_POSTGRES_USER,
+    DATABASE_POSTGRES_HOST: process.env.DATABASE_POSTGRES_HOST,
+    DATABASE_POSTGRES_PASSWORD: process.env.DATABASE_POSTGRES_PASSWORD,
+    DATABASE_POSTGRES_DATABASE: process.env.DATABASE_POSTGRES_DATABASE,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
