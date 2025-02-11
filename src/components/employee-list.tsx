@@ -9,8 +9,8 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { toast } from "sonner";
-import type { Employee } from "~/lib/types";
 import { Copy } from "lucide-react";
+import { employees as employeesTable } from "~/db/schema/employee";
 function CopyableCell({ content }: { content: string }) {
   const copyToClipboard = () => {
     void navigator.clipboard.writeText(content).then(() => {
@@ -31,7 +31,9 @@ function CopyableCell({ content }: { content: string }) {
   );
 }
 
-export default function EmployeeList({ employees }: { employees: Employee[] }) {
+export default function EmployeeList(props: {
+  employees: (typeof employeesTable.$inferSelect)[];
+}) {
   function formatPhoneNumber(phone: string) {
     if (!phone) return "";
     return phone.replace(/(\d{3})(\d{3})(\d{3})/, "$1-$2-$3");
@@ -52,7 +54,7 @@ export default function EmployeeList({ employees }: { employees: Employee[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {employees.map((employee) => (
+            {props.employees.map((employee) => (
               <TableRow key={employee.id}>
                 <CopyableCell
                   content={`${employee.firstName} ${employee.lastName}`}

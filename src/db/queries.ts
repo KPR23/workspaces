@@ -1,13 +1,17 @@
-import { db } from "~/db/db"
-import { employees } from "~/db/schema/employee"
+import "server-only";
 
-export async function getEmployees() {
-  const results = await db
-    .select()
-    .from(employees);
-    
-  return results.map(employee => ({
-    ...employee,
-    hireDate: employee.hireDate ? new Date(employee.hireDate) : null,
-  }));
-}
+import { db } from "./db";
+import { employees as employeesTable } from "./schema/employee";
+import { eq } from "drizzle-orm";
+
+export const QUERIES = {
+  getEmployees: async function () {
+    return await db.select().from(employeesTable);
+  },
+  getEmployee: async function (id: number) {
+    return await db
+      .select()
+      .from(employeesTable)
+      .where(eq(employeesTable.id, id));
+  },
+};
