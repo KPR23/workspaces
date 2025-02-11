@@ -1,4 +1,4 @@
-import type { employeeStatusEnum, employeePositionEnum } from "~/server/db/schema"
+import type { employeeStatusEnum, employeePositionEnum } from "~/db/schema/employee"
 
 export type Employee = {
   id: number

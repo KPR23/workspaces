@@ -31,6 +31,11 @@ function CopyableCell({ content }: { content: string }) {
 }
 
 export default function EmployeeList({ employees }: { employees: Employee[] }) {
+  function formatPhoneNumber(phone: string) {
+    if (!phone) return "";
+    return phone.replace(/(\d{3})(\d{3})(\d{3})/, "$1-$2-$3");
+  }
+
   return (
     <>
       <div className="overflow-hidden rounded-lg bg-white shadow-sm">
@@ -52,9 +57,13 @@ export default function EmployeeList({ employees }: { employees: Employee[] }) {
                   content={`${employee.firstName} ${employee.lastName}`}
                 />
                 <CopyableCell content={employee.email} />
-                <CopyableCell content={employee.phone} />
+                <CopyableCell content={formatPhoneNumber(employee.phone)} />
                 <CopyableCell content={employee.address} />
-                <TableCell>{employee.hireDate.toLocaleDateString()}</TableCell>
+                <TableCell>
+                  {employee.hireDate
+                    ? new Date(employee.hireDate).toLocaleDateString()
+                    : "Brak danych"}
+                </TableCell>
                 <TableCell>{employee.status}</TableCell>
               </TableRow>
             ))}

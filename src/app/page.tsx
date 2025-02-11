@@ -1,7 +1,7 @@
 import EmployeeList from "~/components/employee-list";
 import Layout from "~/components/layout";
 import { Employee } from "~/lib/types";
-import { getEmployees } from "~/server/db/queries";
+import { getEmployees } from "~/db/queries";
 
 export default async function HomePage() {
   const employees = await getEmployees();
