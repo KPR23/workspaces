@@ -12,6 +12,11 @@ jobs:
       - name: Install Dependencies
         run: npm install -g pnpm && pnpm install
 
+      - name: Set environment variables
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      run: echo "Environment variables set"
+      
       - name: Copy .env.example files
         shell: bash
         run: find . -type f -name ".env.example" -exec sh -c 'cp "$1" "${1%.*}"' _ {} \;
