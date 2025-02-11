@@ -56,7 +56,11 @@ export default function AddEmployeeForm({ addEmployee }: AddEmployeeFormProps) {
         <Label htmlFor="disposition">Disposition</Label>
         <Select
           onValueChange={(value: "morning" | "evening" | "flexible") =>
-            setDisposition(value)
+            setAvailability({
+              ...availability,
+              [value]: "Total",
+              [value]: "Off",
+            })
           }
         >
           <SelectTrigger>
