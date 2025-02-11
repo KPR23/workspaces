@@ -1,22 +1,29 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table"
-import type { Employee } from "./EmployeeManagement"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+import type { Employee } from "./EmployeeManagement";
 
 interface EmployeeScheduleProps {
-  employee: Employee
+  employee: Employee;
 }
 
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
 export default function EmployeeSchedule({ employee }: EmployeeScheduleProps) {
   const getShift = (day: string) => {
-    if (employee.disposition === "morning") return "Morning"
-    if (employee.disposition === "evening") return "Evening"
-    return daysOfWeek.indexOf(day) % 2 === 0 ? "Morning" : "Evening"
-  }
+    if (employee.availability[day] === "Morning") return "Morning";
+    if (employee.availability[day] === "Evening") return "Evening";
+    return daysOfWeek.indexOf(day) % 2 === 0 ? "Morning" : "Evening";
+  };
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-2">Your Schedule</h2>
+      <h2 className="mb-2 text-xl font-semibold">Your Schedule</h2>
       <Table>
         <TableHeader>
           <TableRow>
@@ -34,6 +41,5 @@ export default function EmployeeSchedule({ employee }: EmployeeScheduleProps) {
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
-
