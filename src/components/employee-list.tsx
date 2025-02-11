@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import type { Employee } from "~/lib/types";
 import { Copy } from "lucide-react";
 function CopyableCell({ content }: { content: string }) {
