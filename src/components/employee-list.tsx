@@ -22,7 +22,7 @@ function CopyableCell({ content }: { content: string }) {
     <TableCell>
       <span
         onClick={copyToClipboard}
-        className="group relative inline-flex cursor-pointer items-center rounded-md px-4 py-2 transition-colors hover:bg-gray-100 active:bg-gray-200"
+        className="group relative inline-flex cursor-pointer items-center text-nowrap rounded-md px-4 py-2 transition-colors hover:bg-gray-100 active:bg-gray-200"
       >
         {content}
         <Copy className="ml-1.5 h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-75" />

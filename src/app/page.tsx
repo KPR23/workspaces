@@ -8,7 +8,9 @@ export default async function HomePage() {
   return (
     <Layout>
       <main className="container py-8">
-        <h1 className="mb-8 text-3xl font-bold">Pracownicy</h1>
+        <h1 className="mb-8 text-3xl font-bold">
+          Pracownicy ({employees.length})
+        </h1>
         <EmployeeList employees={employees} />
       </main>
     </Layout>
