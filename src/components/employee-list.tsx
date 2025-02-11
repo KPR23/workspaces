@@ -13,8 +13,9 @@ import type { Employee } from "~/lib/types";
 import { Copy } from "lucide-react";
 function CopyableCell({ content }: { content: string }) {
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(content);
-    toast.success("Skopiowano do schowka");
+    void navigator.clipboard.writeText(content).then(() => {
+      toast.success("Skopiowano do schowka");
+    });
   };
 
   return (

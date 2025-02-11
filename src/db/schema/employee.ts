@@ -1,6 +1,5 @@
 import { pgEnum, pgTable, text } from "drizzle-orm/pg-core";
 import { id, hireDate } from "../schemaHelpers";
-import { relations } from "drizzle-orm";
 
 export const employeeStatuses = ["ACTIVE", "INACTIVE", "DISMISSED", "ON_LEAVE"] as const
 export type EmployeeStatus = (typeof employeeStatuses)[number]
