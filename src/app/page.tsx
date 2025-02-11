@@ -10,7 +10,6 @@ export default function Home() {
           Employee List
         </h1>
         <EmployeeList employees={employees} />
-        <div className="mt-6">hs</div>
       </div>
     </Layout>
   );
