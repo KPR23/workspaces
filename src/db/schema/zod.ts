@@ -51,12 +51,44 @@ export const createEmployeeSchema = employeeSchema
     updatedAt: true,
   })
   .extend({
+    firstName: z
+      .string()
+      .min(1, { message: "Imię jest wymagane" })
+      .max(20, { message: "Imię nie może mieć więcej niż 20 znaków" })
+      .regex(/^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż]+$/, {
+        message: "Imię może zawierać tylko litery",
+      }),
+    lastName: z
+      .string()
+      .min(1, { message: "Nazwisko jest wymagane" })
+      .max(50, { message: "Nazwisko nie może mieć więcej niż 50 znaków" })
+      .regex(/^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż\-]+$/, {
+        message: "Nazwisko może zawierać tylko litery i myślnik",
+      }),
     phone: z
       .string()
       .min(9, { message: "Numer telefonu musi mieć 9 cyfr" })
       .max(9, { message: "Numer telefonu musi mieć 9 cyfr" })
       .regex(/^\d+$/, { message: "Numer telefonu może zawierać tylko cyfry" }),
-    address: z.string().min(1, { message: "Adres jest wymagany" }),
+    street: z
+      .string()
+      .min(1, { message: "Ulica jest wymagana" })
+      .max(100, { message: "Nazwa ulicy jest za długa" }),
+    houseNumber: z
+      .string()
+      .min(1, { message: "Numer domu jest wymagany" })
+      .max(10, { message: "Numer domu jest za długi" }),
+    apartmentNumber: z
+      .string()
+      .max(10, { message: "Numer mieszkania jest za długi" })
+      .optional(),
+    postalCode: z
+      .string()
+      .regex(/^\d{2}-\d{3}$/, { message: "Nieprawidłowy format kodu pocztowego" }),
+    city: z
+      .string()
+      .min(1, { message: "Miasto jest wymagane" })
+      .max(100, { message: "Nazwa miasta jest za długa" }),
   });
 
 export const createCinemaWeekSchema = z.object({
@@ -123,7 +155,7 @@ export const updateAvailabilitySchema = partialAvailabilitySchema.refine(data =>
   message: "Start time and end time are required for CUSTOM status"
 }).refine((data) => {
   if (data.status === "CUSTOM" && data.startTime && data.endTime) {
-    return data.startTime < data.endTime; // Dodano sprawdzenie kolejności
+    return data.startTime < data.endTime;
   }
   return true;
 }, {

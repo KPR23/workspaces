@@ -15,7 +15,9 @@ export async function POST(request: Request) {
         lastName: data.lastName,
         email: data.email,
         phone: data.phone,
-        address: "",
+        address: `${data.street} ${data.houseNumber}${
+          data.apartmentNumber ? `/${data.apartmentNumber}` : ""
+        }, ${data.postalCode} ${data.city}`,
       })
       .returning();
 

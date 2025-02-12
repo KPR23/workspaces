@@ -32,7 +32,11 @@ export function EmployeeForm() {
       lastName: "",
       email: "",
       phone: "",
-      address: "",
+      street: "",
+      houseNumber: "",
+      apartmentNumber: "",
+      postalCode: "",
+      city: "",
     },
   });
 
@@ -48,12 +52,16 @@ export function EmployeeForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create employee");
+        throw new Error("Błąd podczas dodawania pracownika.");
       }
 
       form.reset();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong");
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Coś poszło nie tak, spróbuj ponownie.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -219,7 +227,130 @@ export function EmployeeForm() {
                 </FormItem>
               )}
             />
-
+            <div className="space-y-4">
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="street"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Ulica</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Kwiatowa"
+                          {...field}
+                          className={cn(
+                            "border",
+                            form.formState.errors.street
+                              ? "border-destructive"
+                              : "border-input",
+                          )}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="houseNumber"
+                  render={({ field }) => (
+                    <FormItem className="w-24">
+                      <FormLabel>Nr domu</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="42"
+                          {...field}
+                          className={cn(
+                            "border",
+                            form.formState.errors.houseNumber
+                              ? "border-destructive"
+                              : "border-input",
+                          )}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="apartmentNumber"
+                  render={({ field }) => (
+                    <FormItem className="w-24">
+                      <FormLabel>Nr mieszk.</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="12"
+                          {...field}
+                          className={cn(
+                            "border",
+                            form.formState.errors.apartmentNumber
+                              ? "border-destructive"
+                              : "border-input",
+                          )}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="postalCode"
+                  render={({ field }) => (
+                    <FormItem className="w-32">
+                      <FormLabel>Kod pocztowy</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="00-000"
+                          maxLength={6}
+                          {...field}
+                          onChange={(e) => {
+                            let value = e.target.value.replace(/[^\d-]/g, "");
+                            if (value.length === 2 && !value.includes("-")) {
+                              value = value + "-";
+                            }
+                            field.onChange(value);
+                          }}
+                          className={cn(
+                            "border",
+                            form.formState.errors.postalCode
+                              ? "border-destructive"
+                              : "border-input",
+                          )}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Miasto</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Warszawa"
+                          {...field}
+                          className={cn(
+                            "border",
+                            form.formState.errors.city
+                              ? "border-destructive"
+                              : "border-input",
+                          )}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
 
             <LoadingButton
