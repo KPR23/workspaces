@@ -8,9 +8,15 @@ const baseSchema = z.object({
 
 export const employeeSchema = baseSchema.extend({
   id: z.number(),
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  email: z.string().email(),
+  firstName: z
+      .string()
+      .min(1, { message: "Imię jest wymagane" })
+      .max(20, { message: "Imię nie może mieć więcej niż 20 znaków" }),
+    lastName: z
+      .string()
+      .min(1, { message: "Nazwisko jest wymagane" })
+      .max(50, { message: "Nazwisko nie może mieć więcej niż 50 znaków" }),
+    email: z.string().email({ message: "Nieprawidłowy adres e-mail" }),
 });
 
 export const cinemaWeekSchema = baseSchema
@@ -38,11 +44,20 @@ export type Employee = z.infer<typeof employeeSchema>;
 export type CinemaWeek = z.infer<typeof cinemaWeekSchema>;
 export type Availability = z.infer<typeof availabilitySchema>;
 
-export const createEmployeeSchema = employeeSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const createEmployeeSchema = employeeSchema
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .extend({
+    phone: z
+      .string()
+      .min(9, { message: "Numer telefonu musi mieć 9 cyfr" })
+      .max(9, { message: "Numer telefonu musi mieć 9 cyfr" })
+      .regex(/^\d+$/, { message: "Numer telefonu może zawierać tylko cyfry" }),
+    address: z.string().min(1, { message: "Adres jest wymagany" }),
+  });
 
 export const createCinemaWeekSchema = z.object({
   startWeek: z.date(),

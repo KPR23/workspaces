@@ -12,7 +12,7 @@ export const availabilityStatusEnum = pgEnum("availability_status", availability
 export const availability = pgTable("availability", {
     employeeId: integer("employee_id")
         .notNull()
-        .references(() => employees.id),
+        .references(() => employees.id, { onDelete: "cascade" }),
     cinemaWeekId: integer("cinema_week_id")
         .notNull()
         .references(() => cinemaWeek.id),

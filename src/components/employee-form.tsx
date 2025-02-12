@@ -17,6 +17,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
+import { LoadingButton } from "~/components/ui/loading-button";
 
 type EmployeeFormData = z.infer<typeof createEmployeeSchema>;
 
@@ -30,6 +31,8 @@ export function EmployeeForm() {
       firstName: "",
       lastName: "",
       email: "",
+      phone: "",
+      address: "",
     },
   });
 
@@ -67,10 +70,10 @@ export function EmployeeForm() {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>Imię</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="John"
+                        placeholder="Jan"
                         {...field}
                         className={cn(
                           "border",
@@ -90,10 +93,10 @@ export function EmployeeForm() {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>Nazwisko</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Doe"
+                        placeholder="Kowalski"
                         {...field}
                         className={cn(
                           "border",
@@ -114,11 +117,11 @@ export function EmployeeForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>E-mail</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="jan@example.com"
                       {...field}
                       className={cn(
                         "border",
@@ -133,11 +136,99 @@ export function EmployeeForm() {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefon</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="123"
+                        maxLength={3}
+                        value={field.value?.slice(0, 3) || ""}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 3);
+                          const nextInput = e.target
+                            .nextElementSibling as HTMLInputElement;
+                          if (value.length === 3 && nextInput) {
+                            nextInput.focus();
+                          }
+                          const newValue =
+                            value + (field.value?.slice(3) || "");
+                          field.onChange(newValue);
+                        }}
+                        className={cn(
+                          "w-20 border text-center",
+                          form.formState.errors.phone
+                            ? "border-destructive"
+                            : "border-input",
+                        )}
+                      />
+                      <Input
+                        placeholder="456"
+                        maxLength={3}
+                        value={field.value?.slice(3, 6) || ""}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 3);
+                          const nextInput = e.target
+                            .nextElementSibling as HTMLInputElement;
+                          if (value.length === 3 && nextInput) {
+                            nextInput.focus();
+                          }
+                          const newValue =
+                            (field.value?.slice(0, 3) || "") +
+                            value +
+                            (field.value?.slice(6) || "");
+                          field.onChange(newValue);
+                        }}
+                        className={cn(
+                          "w-20 border text-center",
+                          form.formState.errors.phone
+                            ? "border-destructive"
+                            : "border-input",
+                        )}
+                      />
+                      <Input
+                        placeholder="789"
+                        maxLength={3}
+                        value={field.value?.slice(6, 9) || ""}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 3);
+                          const newValue =
+                            (field.value?.slice(0, 6) || "") + value;
+                          field.onChange(newValue);
+                        }}
+                        className={cn(
+                          "w-20 border text-center",
+                          form.formState.errors.phone
+                            ? "border-destructive"
+                            : "border-input",
+                        )}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             {error && <p className="text-sm text-destructive">{error}</p>}
 
-            <Button type="submit" disabled={isSubmitting} className="w-full">
-              {isSubmitting ? "Adding..." : "Add Employee"}
-            </Button>
+            <LoadingButton
+              type="submit"
+              isLoading={isSubmitting}
+              className="w-full"
+            >
+              {isSubmitting ? "Dodawanie..." : "Dodaj"}
+            </LoadingButton>
           </form>
         </Form>
       </CardContent>

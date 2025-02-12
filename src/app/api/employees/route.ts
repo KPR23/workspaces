@@ -14,7 +14,7 @@ export async function POST(request: Request) {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        phone: "",
+        phone: data.phone,
         address: "",
       })
       .returning();
