@@ -21,7 +21,11 @@ import { LoadingButton } from "~/components/ui/loading-button";
 
 type EmployeeFormData = z.infer<typeof createEmployeeSchema>;
 
-export function EmployeeForm() {
+interface EmployeeFormProps {
+  onSuccess?: () => void;
+}
+
+export function EmployeeForm({ onSuccess }: EmployeeFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -56,6 +60,7 @@ export function EmployeeForm() {
       }
 
       form.reset();
+      onSuccess?.();
     } catch (e) {
       setError(
         e instanceof Error

@@ -1,5 +1,3 @@
-import "server-only";
-
 import { db } from "./db";
 import { employees as employeesTable } from "./schema/employee";
 import { eq } from "drizzle-orm";
@@ -15,6 +13,9 @@ export const QUERIES = {
       .select()
       .from(employeesTable)
       .where(eq(employeesTable.id, id));
+  },
+  deleteEmployee: async function (id: number) {
+    return await db.delete(employeesTable).where(eq(employeesTable.id, id));
   },
   getAvailability: async function () {
     return await db.select().from(availabilityTable);
