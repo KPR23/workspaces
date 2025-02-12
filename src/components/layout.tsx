@@ -16,9 +16,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                 <Link
                   href="/"
-                  className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
+                  className="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-900 active:border-indigo-500"
                 >
                   Employee List
+                </Link>
+                <Link
+                  href="/availability"
+                  className="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-900 active:border-indigo-500"
+                >
+                  Availability
                 </Link>
               </div>
             </div>

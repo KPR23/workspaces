@@ -63,8 +63,8 @@ export default function EmployeeList(props: {
                 <CopyableCell content={formatPhoneNumber(employee.phone)} />
                 <CopyableCell content={employee.address} />
                 <TableCell>
-                  {employee.hireDate
-                    ? new Date(employee.hireDate).toLocaleDateString()
+                  {employee.createdAt
+                    ? new Date(employee.createdAt).toLocaleDateString()
                     : "Brak danych"}
                 </TableCell>
                 <TableCell>{employee.status}</TableCell>

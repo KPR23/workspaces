@@ -1,5 +1,5 @@
 import { pgEnum, pgTable, text } from "drizzle-orm/pg-core";
-import { id, hireDate } from "../schemaHelpers";
+import { id, createdAt } from "../schemaHelpers";
 
 export const employeeStatuses = ["ACTIVE", "INACTIVE", "DISMISSED", "ON_LEAVE"] as const
 export type EmployeeStatus = (typeof employeeStatuses)[number]
@@ -16,7 +16,8 @@ export const employees = pgTable("employees", {
   email: text("email").notNull().unique(),
   phone: text("phone").notNull(),
   address: text("address").notNull(),
-  hireDate: hireDate,
-  status: employeeStatusEnum("status").notNull(),
+  createdAt: createdAt,
+  status: employeeStatusEnum("status").notNull().default("ACTIVE"),
   positions: employeePositionEnum("positions").array().notNull().default(["OBSLUGA"]),
+
 });

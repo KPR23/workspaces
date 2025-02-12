@@ -2,7 +2,7 @@ import { serial, timestamp } from "drizzle-orm/pg-core"
 
 export const id = serial("id").primaryKey()
 
-export const hireDate = timestamp("hire_date", { mode: "date" })
+export const createdAt = timestamp("created_at")
   .notNull()
   .defaultNow()
 
