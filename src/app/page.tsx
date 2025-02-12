@@ -1,18 +1,25 @@
-import EmployeeList from "~/components/employee-list";
-import Layout from "~/components/layout";
-import { QUERIES } from "~/db/queries";
-
-export default async function HomePage() {
-  const employees = await QUERIES.getEmployees();
-
+export default function HomePage() {
   return (
-    <Layout>
-      <main className="container py-8">
-        <h1 className="mb-8 text-3xl font-bold">
-          Pracownicy ({employees.length})
-        </h1>
-        <EmployeeList employees={employees} />
-      </main>
-    </Layout>
+    <div className="w-full max-w-7xl space-y-4">
+      <h1 className="text-2xl font-semibold">Dashboard</h1>
+      <div className="rounded-lg border bg-card">
+        <div className="p-4">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b">
+                <th className="pb-4 text-left font-medium">Imię i nazwisko</th>
+                <th className="pb-4 text-left font-medium">Data</th>
+                <th className="pb-4 text-left font-medium">Status</th>
+                <th className="pb-4 text-left font-medium">Początek</th>
+                <th className="pb-4 text-left font-medium">Koniec</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {/* Table rows will go here */}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   );
 }
