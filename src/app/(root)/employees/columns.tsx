@@ -13,25 +13,49 @@ import {
 import type { employees } from "~/db/schema/employee";
 import { deleteEmployee } from "~/app/actions/employee";
 import { toast } from "sonner";
-
+import { Checkbox } from "~/components/ui/checkbox";
 export type Employee = typeof employees.$inferSelect;
 
 export const columns: ColumnDef<Employee>[] = [
   {
+    id: "select",
+    header: ({ table }) => (
+      <div className="px-4">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Zaznacz wszystko"
+        />
+      </div>
+    ),
+    cell: ({ row }) => (
+      <div className="px-4">
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Zaznacz"
+        />
+      </div>
+    ),
+  },
+  {
     accessorKey: "name",
-    header: "Imię i nazwisko",
+    header: () => <div className="ml-12">Imię i nazwisko</div>,
     cell: ({ row }) => {
       const firstName = row.original.firstName;
       const lastName = row.original.lastName;
       return (
-        <div className="flex items-center space-x-4 px-4">
+        <div className="flex items-center">
           <Avatar className="h-8 w-8">
             <AvatarFallback>
               {firstName[0]}
               {lastName[0]}
             </AvatarFallback>
           </Avatar>
-          <div className="min-w-0">
+          <div className="ml-4 min-w-0">
             <div className="truncate font-medium">
               {firstName} {lastName}
             </div>
@@ -48,14 +72,36 @@ export const columns: ColumnDef<Employee>[] = [
     header: "Telefon",
     cell: ({ row }) => {
       const phone = row.original.phone;
-      return phone.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3");
+      return (
+        <div>+48 {phone.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3")}</div>
+      );
     },
   },
   {
     accessorKey: "address",
     header: "Adres",
     cell: ({ row }) => {
-      return <div className="pl-4">{row.getValue("address")}</div>;
+      return <div>{row.getValue("address")}</div>;
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Data zatrudnienia",
+    cell: ({ row }) => {
+      const dateString = row.original.createdAt;
+      let formattedDate = "-";
+
+      if (dateString) {
+        try {
+          const date = new Date(dateString);
+          formattedDate = date.toLocaleDateString("pl-PL");
+        } catch (error) {
+          console.error("Error parsing date:", error);
+          formattedDate = "Invalid Date";
+        }
+      }
+
+      return <div>{formattedDate}</div>;
     },
   },
   {
