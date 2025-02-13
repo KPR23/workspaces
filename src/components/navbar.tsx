@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import { cn } from "~/lib/utils";
 
 const navigation = [
-  { name: "Dashboard", href: "/" },
-  { name: "Employees", href: "/employees" },
-  { name: "Availability", href: "/availability" },
+  { name: "Pulpit", href: "/dashboard" },
+  { name: "Pracownicy", href: "/employees" },
+  { name: "Dyspozycja", href: "/availability" },
 ];
 
 export function Navbar() {
