@@ -3,10 +3,15 @@ import { employees, availability } from "~/db/schema";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } },
-) {
+interface Params {
+  id: string;
+}
+
+interface Props {
+  params: Params;
+}
+
+export async function DELETE(request: Request, { params }: Props) {
   try {
     const id = parseInt(params.id);
 
