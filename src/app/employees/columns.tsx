@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { employees } from "~/db/schema/employee";
+import type { employees } from "~/db/schema/employee";
 import { deleteEmployee } from "~/app/actions/employee";
 import { toast } from "sonner";
 
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Employee>[] = [
           // window.location.reload();
         } else {
           toast.error(
-            result.error || "Wystąpił błąd podczas usuwania pracownika",
+            result.error ?? "Wystąpił błąd podczas usuwania pracownika",
           );
         }
       };

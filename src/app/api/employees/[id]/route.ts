@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const id = parseInt(params.id);
@@ -26,11 +26,14 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: "Employee deleted successfully" });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Failed to delete employee:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to delete employee" },
-      { status: 500 }
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to delete employee",
+      },
+      { status: 500 },
     );
   }
 }

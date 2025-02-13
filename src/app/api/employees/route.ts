@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body: unknown = await request.json();
     const data = createEmployeeSchema.parse(body);
 
     const [employee] = await db
@@ -23,9 +23,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json(employee);
   } catch (error) {
+    console.error("Failed to create employee:", error);
     return NextResponse.json(
       { error: "Failed to create employee" },
-      { status: 400 }
+      { status: 400 },
     );
   }
-} 
+}
