@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import type { employees } from "~/db/schema/employee";
-import { deleteEmployee } from "~/app/actions/employee";
+import { deleteEmployee } from "~/app/api/employees/actions/employee";
 import { toast } from "sonner";
 import { Checkbox } from "~/components/ui/checkbox";
 export type Employee = typeof employees.$inferSelect;
@@ -81,7 +81,7 @@ export const columns: ColumnDef<Employee>[] = [
     accessorKey: "address",
     header: "Adres",
     cell: ({ row }) => {
-      return <div>{row.getValue("address")}</div>;
+      return <div>ul. {row.getValue("address")}</div>;
     },
   },
   {
@@ -97,7 +97,7 @@ export const columns: ColumnDef<Employee>[] = [
           formattedDate = date.toLocaleDateString("pl-PL");
         } catch (error) {
           console.error("Error parsing date:", error);
-          formattedDate = "Invalid Date";
+          formattedDate = "Nieprawidłowa data";
         }
       }
 

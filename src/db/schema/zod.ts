@@ -9,14 +9,14 @@ const baseSchema = z.object({
 export const employeeSchema = baseSchema.extend({
   id: z.number(),
   firstName: z
-      .string()
-      .min(1, { message: "Imię jest wymagane" })
-      .max(20, { message: "Imię nie może mieć więcej niż 20 znaków" }),
-    lastName: z
-      .string()
-      .min(1, { message: "Nazwisko jest wymagane" })
-      .max(50, { message: "Nazwisko nie może mieć więcej niż 50 znaków" }),
-    email: z.string().email({ message: "Nieprawidłowy adres e-mail" }),
+    .string()
+    .min(1, { message: "Imię jest wymagane" })
+    .max(20, { message: "Imię nie może mieć więcej niż 20 znaków" }),
+  lastName: z
+    .string()
+    .min(1, { message: "Nazwisko jest wymagane" })
+    .max(50, { message: "Nazwisko nie może mieć więcej niż 50 znaków" }),
+  email: z.string().email({ message: "Nieprawidłowy adres e-mail" }),
 });
 
 export const cinemaWeekSchema = baseSchema
@@ -82,49 +82,60 @@ export const createEmployeeSchema = employeeSchema
       .string()
       .max(10, { message: "Numer mieszkania jest za długi" })
       .optional(),
-    postalCode: z
-      .string()
-      .regex(/^\d{2}-\d{3}$/, { message: "Nieprawidłowy format kodu pocztowego" }),
+    postalCode: z.string().regex(/^\d{2}-\d{3}$/, {
+      message: "Nieprawidłowy format kodu pocztowego",
+    }),
     city: z
       .string()
       .min(1, { message: "Miasto jest wymagane" })
       .max(100, { message: "Nazwa miasta jest za długa" }),
   });
 
-export const createCinemaWeekSchema = z.object({
-  startWeek: z.date(),
-  endWeek: z.date(),
-}).refine((data) => data.startWeek <= data.endWeek, {
-  message: "End week must be after start week",
-});
+export const createCinemaWeekSchema = z
+  .object({
+    startWeek: z.date(),
+    endWeek: z.date(),
+  })
+  .refine((data) => data.startWeek <= data.endWeek, {
+    message: "End week must be after start week",
+  });
 
 const partialCinemaWeekSchema = z.object({
   startWeek: z.date().optional(),
   endWeek: z.date().optional(),
 });
 
-export const createAvailabilitySchema = z.object({
-  employeeId: z.number(),
-  cinemaWeekId: z.number(),
-  date: z.date(),
-  status: z.enum(availabilityStatuses),
-  startTime: z.string().regex(timeRegex).nullable(),
-  endTime: z.string().regex(timeRegex).nullable(),
-}).refine(data => {
-  if (data.status === "CUSTOM") {
-    return data.startTime !== null && data.endTime !== null;
-  }
-  return true;
-}, {
-  message: "Start time and end time are required for CUSTOM status"
-}).refine((data) => {
-  if (data.status === "CUSTOM" && data.startTime && data.endTime) {
-    return data.startTime < data.endTime;
-  }
-  return true;
-}, {
-  message: "Start time must be before end time",
-});
+export const createAvailabilitySchema = z
+  .object({
+    employeeId: z.number(),
+    cinemaWeekId: z.number(),
+    date: z.date(),
+    status: z.enum(availabilityStatuses),
+    startTime: z.string().regex(timeRegex).nullable(),
+    endTime: z.string().regex(timeRegex).nullable(),
+  })
+  .refine(
+    (data) => {
+      if (data.status === "CUSTOM") {
+        return data.startTime !== null && data.endTime !== null;
+      }
+      return true;
+    },
+    {
+      message: "Start time and end time are required for CUSTOM status",
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.status === "CUSTOM" && data.startTime && data.endTime) {
+        return data.startTime < data.endTime;
+      }
+      return true;
+    },
+    {
+      message: "Start time must be before end time",
+    },
+  );
 
 const partialAvailabilitySchema = z.object({
   employeeId: z.number().optional(),
@@ -137,27 +148,38 @@ const partialAvailabilitySchema = z.object({
 
 export const updateEmployeeSchema = createEmployeeSchema.partial();
 
-export const updateCinemaWeekSchema = partialCinemaWeekSchema.refine((data) => {
-  if (data.startWeek && data.endWeek) {
-    return data.startWeek <= data.endWeek;
-  }
-  return true;
-}, {
-  message: "End week must be after start week",
-});
+export const updateCinemaWeekSchema = partialCinemaWeekSchema.refine(
+  (data) => {
+    if (data.startWeek && data.endWeek) {
+      return data.startWeek <= data.endWeek;
+    }
+    return true;
+  },
+  {
+    message: "End week must be after start week",
+  },
+);
 
-export const updateAvailabilitySchema = partialAvailabilitySchema.refine(data => {
-  if (data.status === "CUSTOM") {
-    return data.startTime !== null && data.endTime !== null;
-  }
-  return true;
-}, {
-  message: "Start time and end time are required for CUSTOM status"
-}).refine((data) => {
-  if (data.status === "CUSTOM" && data.startTime && data.endTime) {
-    return data.startTime < data.endTime;
-  }
-  return true;
-}, {
-  message: "Start time must be before end time",
-});
+export const updateAvailabilitySchema = partialAvailabilitySchema
+  .refine(
+    (data) => {
+      if (data.status === "CUSTOM") {
+        return data.startTime !== null && data.endTime !== null;
+      }
+      return true;
+    },
+    {
+      message: "Start time and end time are required for CUSTOM status",
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.status === "CUSTOM" && data.startTime && data.endTime) {
+        return data.startTime < data.endTime;
+      }
+      return true;
+    },
+    {
+      message: "Start time must be before end time",
+    },
+  );

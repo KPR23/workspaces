@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { createEmployeeSchema } from "~/db/schema/zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import { cn } from "~/lib/utils";
+import { createEmployeeSchema, Employee } from "~/db/schema/zod";
 import {
   Form,
   FormControl,
@@ -22,6 +22,12 @@ type EmployeeFormData = z.infer<typeof createEmployeeSchema>;
 
 interface EmployeeFormProps {
   onSuccess?: () => void;
+}
+
+interface ApiResponse {
+  success: boolean;
+  data?: Employee;
+  error?: string;
 }
 
 export function EmployeeForm({ onSuccess }: EmployeeFormProps) {
@@ -54,8 +60,10 @@ export function EmployeeForm({ onSuccess }: EmployeeFormProps) {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("Błąd podczas dodawania pracownika.");
+      const result = (await response.json()) as ApiResponse;
+
+      if (!result.success) {
+        throw new Error(result.error ?? "Błąd podczas dodawania pracownika.");
       }
 
       form.reset();

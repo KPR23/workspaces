@@ -1,3 +1,5 @@
+// This file can be deleted as it's replaced by the server action
+
 import { db } from "~/db/db";
 import { employees } from "~/db/schema/employee";
 import { createEmployeeSchema } from "~/db/schema/zod";
@@ -6,26 +8,28 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body: unknown = await request.json();
-    const data = createEmployeeSchema.parse(body);
+    const validatedData = createEmployeeSchema.parse(body);
 
     const [employee] = await db
       .insert(employees)
       .values({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phone: data.phone,
-        address: `${data.street} ${data.houseNumber}${
-          data.apartmentNumber ? `/${data.apartmentNumber}` : ""
-        }, ${data.postalCode} ${data.city}`,
+        firstName: validatedData.firstName,
+        lastName: validatedData.lastName,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        address: `${validatedData.street} ${validatedData.houseNumber}${
+          validatedData.apartmentNumber
+            ? `/${validatedData.apartmentNumber}`
+            : ""
+        }, ${validatedData.postalCode} ${validatedData.city}`,
       })
       .returning();
 
-    return NextResponse.json(employee);
+    return NextResponse.json({ success: true, data: employee });
   } catch (error) {
     console.error("Failed to create employee:", error);
     return NextResponse.json(
-      { error: "Failed to create employee" },
+      { success: false, error: "Błąd podczas dodawania pracownika." },
       { status: 400 },
     );
   }
