@@ -10,7 +10,7 @@ const navigation = [
   { name: "Dyspozycja", href: "/availability" },
 ];
 
-export default function Navbar() {
+export function Navbar() {
   const pathname = usePathname();
 
   return (
