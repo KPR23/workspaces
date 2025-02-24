@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import { cn } from "~/lib/utils";
-import { createEmployeeSchema, Employee } from "~/db/schema/zod";
+import { createEmployeeSchema } from "~/db/schema/zod";
+import type { Employee } from "~/db/schema/zod";
 import {
   Form,
   FormControl,

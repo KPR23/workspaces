@@ -9,10 +9,12 @@ export const QUERIES = {
     return await db.select().from(employeesTable);
   },
   getEmployee: async function (id: number) {
-    return await db
+    const result = await db
       .select()
       .from(employeesTable)
       .where(eq(employeesTable.id, id));
+
+    return result[0];
   },
   deleteEmployee: async function (id: number) {
     return await db.delete(employeesTable).where(eq(employeesTable.id, id));
