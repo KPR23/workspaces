@@ -44,6 +44,7 @@ export const columns: ColumnDef<Employee>[] = [
   {
     accessorKey: "name",
     header: () => <div className="ml-12">Imię i nazwisko</div>,
+    accessorFn: (row) => `${row.firstName} ${row.lastName} ${row.email}`,
     cell: ({ row }) => {
       const firstName = row.original.firstName;
       const lastName = row.original.lastName;
