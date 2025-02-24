@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "~/lib/utils";
+import { ModeToggle } from "./theme-toggle";
 
 const navigation = [
   { name: "Pulpit", href: "/dashboard" },
@@ -37,6 +38,9 @@ export function Navbar() {
                 </Link>
               ))}
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <ModeToggle />
           </div>
         </div>
       </div>
