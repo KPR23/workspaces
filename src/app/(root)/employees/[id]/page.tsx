@@ -1,5 +1,6 @@
 import React from "react";
 import { EmployeeService } from "~/services/employeeService";
+import type { Metadata, NextPage } from "next";
 
 interface Props {
   params: {
@@ -7,7 +8,7 @@ interface Props {
   };
 }
 
-const Page = async ({ params }: Props) => {
+const Page: NextPage<Props> = async ({ params }) => {
   try {
     const employee = await EmployeeService.getById(Number(params.id));
 
@@ -20,8 +21,12 @@ const Page = async ({ params }: Props) => {
     );
   } catch (error) {
     console.error("Error fetching employee:", error);
-    throw new Error("Nie udało się załadować listy pracowników.");
+    return <div>Error: Could not load employee details.</div>;
   }
+};
+
+export const metadata: Metadata = {
+  title: "Employee Details",
 };
 
 export default Page;
