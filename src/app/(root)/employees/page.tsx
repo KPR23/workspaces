@@ -1,10 +1,10 @@
 import { AddEmployeeDialog } from "~/components/add-employee-dialog";
-import { columns } from "./columns";
-import { DataTable } from "./data-table";
-import { QUERIES } from "~/db/queries";
+import { Suspense } from "react";
+import { EmployeeService } from "~/services/employeeService";
+import { EmployeeTable } from "./EmployeeTable";
 
 export default async function EmployeesPage() {
-  const employees = await QUERIES.getEmployees();
+  const employees = await EmployeeService.getAll();
 
   return (
     <div className="container mx-auto py-10">
@@ -12,7 +12,11 @@ export default async function EmployeesPage() {
         <h1 className="text-2xl font-bold">Pracownicy ({employees.length})</h1>
         <AddEmployeeDialog />
       </div>
-      <DataTable columns={columns} data={employees} />
+      <Suspense
+        fallback={<div className="py-10 text-center">Ładowanie...</div>}
+      >
+        <EmployeeTable initialEmployees={employees} />
+      </Suspense>
     </div>
   );
 }

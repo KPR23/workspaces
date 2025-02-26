@@ -1,5 +1,3 @@
-// This file can be deleted as it's replaced by the server action
-
 import { db } from "~/db/db";
 import { employees } from "~/db/schema/employee";
 import { createEmployeeSchema } from "~/db/schema/zod";

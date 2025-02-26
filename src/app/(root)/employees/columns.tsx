@@ -11,10 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import type { employees } from "~/db/schema/employee";
-import { deleteEmployee } from "~/app/api/employees/actions/employee";
 import { toast } from "sonner";
 import { Checkbox } from "~/components/ui/checkbox";
+import { deleteEmployee } from "~/actions/employeeActions";
+
 export type Employee = typeof employees.$inferSelect;
+
+type TableMeta = { onDataChange: () => void };
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -125,16 +128,28 @@ export const columns: ColumnDef<Employee>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
+      const employee = row.original;
+
       const handleDelete = async () => {
-        const result = await deleteEmployee(row.original.id);
-        if (result.success) {
-          toast.success("Pracownik został usunięty");
-          // window.location.reload();
-        } else {
-          toast.error(
-            result.error ?? "Wystąpił błąd podczas usuwania pracownika",
-          );
+        try {
+          const result = await deleteEmployee(employee.id);
+
+          if (result.success) {
+            toast.success("Pracownik został usunięty");
+            (table.options.meta as TableMeta).onDataChange();
+          } else {
+            const errorMessage =
+              (result as { error?: string }).error ??
+              "Wystąpił błąd podczas usuwania pracownika";
+            toast.error(errorMessage);
+          }
+        } catch (error) {
+          const errorMessage =
+            error instanceof Error
+              ? error.message
+              : "Wystąpił błąd podczas usuwania pracownika";
+          toast.error(errorMessage);
         }
       };
 
