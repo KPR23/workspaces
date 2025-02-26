@@ -1,8 +1,8 @@
 import React from "react";
-import { QUERIES } from "~/db/queries";
+import { EmployeeService } from "~/services/employeeService";
 
 const page = async ({ params }: { params: { id: string } }) => {
-  const employee = await QUERIES.getEmployee(Number(params.id));
+  const employee = await EmployeeService.getById(Number(params.id));
 
   return (
     <div>
