@@ -1,6 +1,6 @@
 import React from "react";
 import { EmployeeService } from "~/services/employeeService";
-import type { Metadata, NextPage } from "next";
+import type { Metadata } from "next";
 
 interface Props {
   params: {
@@ -8,7 +8,7 @@ interface Props {
   };
 }
 
-const Page: NextPage<Props> = async ({ params }) => {
+const Page = async ({ params }: Props) => {
   try {
     const employee = await EmployeeService.getById(Number(params.id));
 
