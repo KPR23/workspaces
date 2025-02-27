@@ -2,6 +2,7 @@
 
 - [ ] Dodanie autentykacji oraz autoryzacji
 - [ ] Zaprojektowanie login page
+- [ ] Strona profilu użytkownika
 
 ## UI&UX
 
