@@ -1,9 +1,11 @@
 # TODO
 
-- [ ] Dodanie autentykacji oraz autoryzacji
-- [ ] Zaprojektowanie login page
-- [ ] Strona profilu użytkownika
+## MAIN
+
+- [ ] Add auth
+- [ ] Login page
+- [ ] Employee page
 
 ## UI&UX
 
-- [ ] Podświetlić komórkę "e-mail" w formularzu, gdy taki email istnieje już istnieje.
+- [ ] Email form update, when email exists
