@@ -3,7 +3,10 @@
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useState } from "react";
-import { DateRange } from "react-day-picker";
+import type { availability as availabilityTable } from "~/server/db/schema";
+import type { employees as employeesTable } from "~/server/db/schema/employee";
+import type { cinemaWeek as cinemaWeekTable } from "~/server/db/schema/cinemaWeek";
+import type { DateRange } from "react-day-picker";
 import { Calendar } from "~/components/ui/calendar";
 import {
   Select,
@@ -28,9 +31,6 @@ import {
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { availability as availabilityTable } from "~/server/db/schema";
-import { employees as employeesTable } from "~/server/db/schema/employee";
-import { cinemaWeek as cinemaWeekTable } from "~/server/db/schema/cinemaWeek";
 
 export default function AvailabilityList(props: {
   availability: (typeof availabilityTable.$inferSelect)[];
@@ -66,7 +66,6 @@ export default function AvailabilityList(props: {
     return time.slice(0, 5);
   };
 
-  // Filter by employee and date range
   const filteredAvailability = props.availability.filter((a) => {
     const matchesEmployee =
       selectedEmployeeId === "all" ||

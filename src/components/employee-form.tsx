@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import type { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { z } from "zod";
 import { cn } from "~/lib/utils";
 import { createEmployeeSchema } from "~/server/db/schema/zod";
-import type { Employee } from "~/server/db/schema/zod";
 import {
   Form,
   FormControl,
@@ -18,22 +17,21 @@ import {
 import { Input } from "~/components/ui/input";
 import { Card, CardContent } from "~/components/ui/card";
 import { LoadingButton } from "~/components/ui/loading-button";
+import { useTransition } from "react";
+import { createEmployee } from "~/server/actions/employeeActions";
+import { toast } from "sonner";
 
 type EmployeeFormData = z.infer<typeof createEmployeeSchema>;
 
 interface EmployeeFormProps {
   onSuccess?: () => void;
+  onDataChange?: () => void;
 }
 
-interface ApiResponse {
-  success: boolean;
-  data?: Employee;
-  error?: string;
-}
-
-export function EmployeeForm({ onSuccess }: EmployeeFormProps) {
+export function EmployeeForm({ onSuccess, onDataChange }: EmployeeFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<EmployeeFormData>({
     resolver: zodResolver(createEmployeeSchema),
@@ -51,33 +49,23 @@ export function EmployeeForm({ onSuccess }: EmployeeFormProps) {
   });
 
   const onSubmit = async (data: EmployeeFormData) => {
-    try {
-      setIsSubmitting(true);
-      setError(null);
+    setIsSubmitting(true);
+    setError(null);
 
-      const response = await fetch("/api/employees", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      const result = (await response.json()) as ApiResponse;
+    startTransition(async () => {
+      const result = await createEmployee(data);
 
       if (!result.success) {
-        throw new Error(result.error ?? "Błąd podczas dodawania pracownika.");
+        toast.error(result.error ?? "Błąd podczas dodawania pracownika.");
+        setError(result.error ?? "Błąd podczas dodawania pracownika.");
+      } else {
+        form.reset();
+        onSuccess?.();
+        toast.success("Pracownik został dodany");
+        onDataChange?.();
       }
-
-      form.reset();
-      onSuccess?.();
-    } catch (e) {
-      setError(
-        e instanceof Error
-          ? e.message
-          : "Coś poszło nie tak, spróbuj ponownie.",
-      );
-    } finally {
       setIsSubmitting(false);
-    }
+    });
   };
 
   return (
@@ -368,10 +356,11 @@ export function EmployeeForm({ onSuccess }: EmployeeFormProps) {
 
             <LoadingButton
               type="submit"
-              isLoading={isSubmitting}
+              isLoading={isSubmitting || isPending}
               className="w-full"
+              disabled={isPending}
             >
-              {isSubmitting ? "Dodawanie..." : "Dodaj"}
+              {isSubmitting || isPending ? "Dodawanie..." : "Dodaj"}
             </LoadingButton>
           </form>
         </Form>

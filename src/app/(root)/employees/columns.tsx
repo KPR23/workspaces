@@ -17,7 +17,7 @@ import { deleteEmployee } from "~/server/actions/employeeActions";
 
 export type Employee = typeof employees.$inferSelect;
 
-type TableMeta = { onDataChange: () => void };
+export type TableMeta = { onDataChange: () => void };
 
 export const columns: ColumnDef<Employee>[] = [
   {

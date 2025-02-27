@@ -57,7 +57,23 @@ export class EmployeeService {
       console.error("Failed to create employee:", error);
       throw error instanceof Error
         ? error
-        : new Error("Failed to create employee");
+        : new Error("Nie udało się utworzyć profilu pracownika.");
+    }
+  }
+
+  static async existCheck(email: string) {
+    try {
+      const existingEmployee = await db
+        .select()
+        .from(employeesTable)
+        .where(eq(employeesTable.email, email));
+
+      return existingEmployee;
+    } catch (error) {
+      console.error("Failed to check if employee exists:", error);
+      throw error instanceof Error
+        ? error
+        : new Error("Błąd podczas sprawdzania profilu pracownika.");
     }
   }
 
@@ -74,7 +90,7 @@ export class EmployeeService {
           .returning();
 
         if (!deletedEmployee) {
-          throw new Error("Employee not found");
+          throw new Error("Nie znaleziono pracownika.");
         }
 
         return deletedEmployee;

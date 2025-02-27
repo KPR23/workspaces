@@ -42,6 +42,18 @@ export async function createEmployee(data: FormData | Record<string, unknown>) {
   try {
     const formData =
       data instanceof FormData ? Object.fromEntries(data.entries()) : data;
+
+    const email = typeof formData.email === "string" ? formData.email : "";
+
+    const existingEmployee = await EmployeeService.existCheck(email);
+
+    if (existingEmployee.length > 0) {
+      return {
+        success: false,
+        error: "Użytkownik z takim adresem email już istnieje.",
+      };
+    }
+
     const employee = await EmployeeService.create(formData);
 
     return { success: true, data: employee };
