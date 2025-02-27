@@ -4,7 +4,7 @@ import { useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import type { Employee } from "./columns";
-import { getEmployees } from "~/actions/employeeActions";
+import { getEmployees } from "~/server/actions/employeeActions";
 import { toast } from "sonner";
 
 interface EmployeeTableProps {

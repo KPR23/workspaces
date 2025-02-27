@@ -1,5 +1,5 @@
-import { db } from "~/db/db";
-import { availability as availabilityTable } from "~/db/schema/availability";
+import { db } from "~/server/db/db";
+import { availability as availabilityTable } from "~/server/db/schema/availability";
 import { eq } from "drizzle-orm";
 
 export class AvailabilityService {

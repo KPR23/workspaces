@@ -28,9 +28,9 @@ import {
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { availability as availabilityTable } from "~/db/schema";
-import { employees as employeesTable } from "~/db/schema/employee";
-import { cinemaWeek as cinemaWeekTable } from "~/db/schema/cinemaWeek";
+import { availability as availabilityTable } from "~/server/db/schema";
+import { employees as employeesTable } from "~/server/db/schema/employee";
+import { cinemaWeek as cinemaWeekTable } from "~/server/db/schema/cinemaWeek";
 
 export default function AvailabilityList(props: {
   availability: (typeof availabilityTable.$inferSelect)[];

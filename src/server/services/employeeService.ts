@@ -1,8 +1,8 @@
-import { db } from "~/db/db";
-import { employees as employeesTable } from "~/db/schema/employee";
-import { availability as availabilityTable } from "~/db/schema/availability";
+import { db } from "~/server/db/db";
+import { employees as employeesTable } from "~/server/db/schema/employee";
+import { availability as availabilityTable } from "~/server/db/schema/availability";
 import { eq } from "drizzle-orm";
-import { createEmployeeSchema } from "~/db/schema/zod";
+import { createEmployeeSchema } from "~/server/db/schema/zod";
 
 export class EmployeeService {
   static async getAll() {

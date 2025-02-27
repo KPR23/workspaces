@@ -10,10 +10,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import type { employees } from "~/db/schema/employee";
+import type { employees } from "~/server/db/schema/employee";
 import { toast } from "sonner";
 import { Checkbox } from "~/components/ui/checkbox";
-import { deleteEmployee } from "~/actions/employeeActions";
+import { deleteEmployee } from "~/server/actions/employeeActions";
 
 export type Employee = typeof employees.$inferSelect;
 

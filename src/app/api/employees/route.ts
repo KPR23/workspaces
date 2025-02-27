@@ -1,6 +1,6 @@
-import { db } from "~/db/db";
-import { employees } from "~/db/schema/employee";
-import { createEmployeeSchema } from "~/db/schema/zod";
+import { db } from "~/server/db/db";
+import { employees } from "~/server/db/schema/employee";
+import { createEmployeeSchema } from "~/server/db/schema/zod";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {

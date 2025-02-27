@@ -1,10 +1,10 @@
 "use server";
 
-import { db } from "~/db/db";
-import { employees as employeesTable } from "~/db/schema/employee";
-import { availability as availabilityTable } from "~/db/schema/availability";
+import { db } from "~/server/db/db";
+import { employees as employeesTable } from "~/server/db/schema/employee";
+import { availability as availabilityTable } from "~/server/db/schema/availability";
 import { eq } from "drizzle-orm";
-import { EmployeeService } from "~/services/employeeService";
+import { EmployeeService } from "~/server/services/employeeService";
 
 export async function getEmployees() {
   try {

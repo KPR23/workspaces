@@ -1,7 +1,7 @@
 import AvailabilityList from "~/components/availability-list";
-import { AvailabilityService } from "~/services/availabilityService";
-import { CinemaWeekService } from "~/services/cinemaWeekService";
-import { EmployeeService } from "~/services/employeeService";
+import { AvailabilityService } from "~/server/services/availabilityService";
+import { CinemaWeekService } from "~/server/services/cinemaWeekService";
+import { EmployeeService } from "~/server/services/employeeService";
 
 export default async function AvailabilityPage() {
   const availability = await AvailabilityService.getAll();

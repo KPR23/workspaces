@@ -1,6 +1,6 @@
 import { AddEmployeeDialog } from "~/components/add-employee-dialog";
 import { Suspense } from "react";
-import { EmployeeService } from "~/services/employeeService";
+import { EmployeeService } from "~/server/services/employeeService";
 import { EmployeeTable } from "./EmployeeTable";
 
 export default async function EmployeesPage() {

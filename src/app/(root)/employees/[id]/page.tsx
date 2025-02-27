@@ -1,5 +1,5 @@
 import React from "react";
-import { EmployeeService } from "~/services/employeeService";
+import { EmployeeService } from "~/server/services/employeeService";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const employeeId = Number(params.id);

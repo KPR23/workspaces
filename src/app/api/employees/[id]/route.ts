@@ -1,5 +1,5 @@
-import { db } from "~/db/db";
-import { employees, availability } from "~/db/schema";
+import { db } from "~/server/db/db";
+import { employees, availability } from "~/server/db/schema";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 

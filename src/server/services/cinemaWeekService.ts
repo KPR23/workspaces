@@ -1,5 +1,5 @@
-import { db } from "~/db/db";
-import { cinemaWeek as cinemaWeekTable } from "~/db/schema/cinemaWeek";
+import { db } from "~/server/db/db";
+import { cinemaWeek as cinemaWeekTable } from "~/server/db/schema/cinemaWeek";
 
 export class CinemaWeekService {
   static async getAll() {
