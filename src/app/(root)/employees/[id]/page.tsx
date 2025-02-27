@@ -1,32 +1,17 @@
 import React from "react";
 import { EmployeeService } from "~/services/employeeService";
-import type { Metadata } from "next";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
+const page = async ({ params }: { params: { id: string } }) => {
+  const employeeId = Number(params.id);
+  const employee = await EmployeeService.getById(employeeId);
 
-const Page = async ({ params }: Props) => {
-  try {
-    const employee = await EmployeeService.getById(Number(params.id));
-
-    return (
-      <div>
-        <h1>
-          {employee?.firstName} {employee?.lastName}
-        </h1>
-      </div>
-    );
-  } catch (error) {
-    console.error("Error fetching employee:", error);
-    return <div>Error: Could not load employee details.</div>;
-  }
+  return (
+    <div>
+      <h1>
+        {employee?.firstName} {employee?.lastName}
+      </h1>
+    </div>
+  );
 };
 
-export const metadata: Metadata = {
-  title: "Employee Details",
-};
-
-export default Page;
+export default page;
