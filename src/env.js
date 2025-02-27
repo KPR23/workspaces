@@ -18,6 +18,9 @@ export const env = createEnv({
     DATABASE_POSTGRES_HOST: z.string(),
     DATABASE_POSTGRES_PASSWORD: z.string(),
     DATABASE_POSTGRES_DATABASE: z.string(),
+
+    BETTER_AUTH_SECRET: z.string(),
+    BETTER_AUTH_URL: z.string(),
   },
 
   /**
@@ -41,7 +44,8 @@ export const env = createEnv({
     DATABASE_POSTGRES_HOST: process.env.DATABASE_POSTGRES_HOST,
     DATABASE_POSTGRES_PASSWORD: process.env.DATABASE_POSTGRES_PASSWORD,
     DATABASE_POSTGRES_DATABASE: process.env.DATABASE_POSTGRES_DATABASE,
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

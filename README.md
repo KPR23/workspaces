@@ -9,3 +9,4 @@
 ## UI&UX
 
 - [ ] Email form update, when email exists
+- [ ] Fix auto data table refresh after adding employee
