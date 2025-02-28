@@ -2,7 +2,7 @@ import { AddEmployeeDialog } from "~/components/add-employee-dialog";
 import { Suspense } from "react";
 import { EmployeeService } from "~/server/services/employeeService";
 import { EmployeeTable } from "./EmployeeTable";
-
+export const dynamic = "force-dynamic";
 export default async function EmployeesPage() {
   const employees = await EmployeeService.getAll();
 
