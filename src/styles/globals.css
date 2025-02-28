@@ -90,3 +90,14 @@
     @apply p-4 first:pl-0 last:pr-0;
   }
 }
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

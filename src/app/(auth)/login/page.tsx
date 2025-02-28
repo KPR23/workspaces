@@ -1,16 +1,11 @@
 "use client";
 
 import React from "react";
+import Login from "~/components/login";
 import { signIn } from "~/lib/auth-client";
 
 const page = () => {
-  return (
-    <div>
-      <button onClick={() => signIn.oauth2({ providerId: "github" })}>
-        Zaloguj się
-      </button>
-    </div>
-  );
+  return <Login />;
 };
 
 export default page;
