@@ -20,6 +20,9 @@ jobs:
           DATABASE_POSTGRES_HOST: ${{ secrets.DATABASE_POSTGRES_HOST }}
           DATABASE_POSTGRES_PASSWORD: ${{ secrets.DATABASE_POSTGRES_PASSWORD }}
           DATABASE_POSTGRES_DATABASE: ${{ secrets.DATABASE_POSTGRES_DATABASE }}
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+
         run: |
           echo "DATABASE_URL=$DATABASE_URL" >> .env
           echo "DATABASE_POSTGRES_URL=$DATABASE_POSTGRES_URL" >> .env
@@ -27,6 +30,8 @@ jobs:
           echo "DATABASE_POSTGRES_HOST=$DATABASE_POSTGRES_HOST" >> .env
           echo "DATABASE_POSTGRES_PASSWORD=$DATABASE_POSTGRES_PASSWORD" >> .env
           echo "DATABASE_POSTGRES_DATABASE=$DATABASE_POSTGRES_DATABASE" >> .env
+          echo "BETTER_AUTH_SECRET=$BETTER_AUTH_SECRET" >> .env
+          echo "BETTER_AUTH_URL=$BETTER_AUTH_URL" >> .env
 
       - name: Copy .env.example files
         shell: bash
