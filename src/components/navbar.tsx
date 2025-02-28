@@ -4,6 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "~/lib/utils";
 import { ModeToggle } from "./theme-toggle";
+import { Button } from "./ui/button";
+import { signIn, signOut, useSession } from "~/lib/auth-client";
+import { LogOutIcon } from "lucide-react";
+import Image from "next/image";
+import Login from "./login";
 
 const navigation = [
   { name: "Pulpit", href: "/dashboard" },
@@ -12,6 +17,7 @@ const navigation = [
 ];
 
 export function Navbar() {
+  const { data: session } = useSession();
   const pathname = usePathname();
 
   return (
@@ -41,6 +47,23 @@ export function Navbar() {
           </div>
           <div className="flex items-center gap-2">
             <ModeToggle />
+            <div className="flex items-center gap-2">
+              {session?.user?.image ? (
+                <>
+                  <Image
+                    src={session?.user.image}
+                    alt="User avatar"
+                    width={24}
+                    height={24}
+                  />
+                  <Button onClick={() => signOut()}>
+                    <LogOutIcon className="h-4 w-4" /> Wyloguj się
+                  </Button>
+                </>
+              ) : (
+                <Login />
+              )}
+            </div>
           </div>
         </div>
       </div>

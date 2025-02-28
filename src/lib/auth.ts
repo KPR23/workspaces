@@ -9,6 +9,9 @@ import {
 } from "~/server/db/schema/auth-schema";
 
 export const auth = betterAuth({
+  app: {
+    name: "Workspaces",
+  },
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
@@ -22,6 +25,22 @@ export const auth = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          return {
+            data: {
+              ...user,
+              firstName: user.name.split(" ")[0],
+              lastName: user.name.split(" ")[1],
+              image: user.image ?? "",
+            },
+          };
+        },
+      },
     },
   },
 });
