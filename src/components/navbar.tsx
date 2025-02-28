@@ -21,6 +21,7 @@ import {
 import { Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Avatar, AvatarFallback } from "./ui/avatar";
+import LoginButton from "./login-button";
 
 const navigation = [
   { name: "Pulpit", href: "/dashboard" },
@@ -82,7 +83,7 @@ export function Navbar() {
                   </div>
                 </DropdownMenuTrigger>
               ) : (
-                <Login />
+                <LoginButton />
               )}
               <DropdownMenuContent>
                 <div className="mx-2 mb-2.5 mt-1.5 flex flex-col">
