@@ -6,7 +6,6 @@ import { cn } from "~/lib/utils";
 import { signOut, useSession } from "~/lib/auth-client";
 import { LogOutIcon, MonitorCog, Settings } from "lucide-react";
 import Image from "next/image";
-import Login from "./login";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -26,7 +25,10 @@ import LoginButton from "./login-button";
 const navigation = [
   { name: "Pulpit", href: "/dashboard" },
   { name: "Pracownicy", href: "/employees" },
+  { name: "Grafik", href: "/schedule" },
   { name: "Dyspozycja", href: "/availability" },
+  { name: "Materiały szkoleniowe", href: "/training-materials" },
+  { name: "Statystyki", href: "/statistics" },
 ];
 
 export function Navbar() {

@@ -18,3 +18,5 @@
 - [ ] Email form update, when email exists
 - [ ] Fix auto data table refresh after adding employee
 - [ ] Add working settings tab
+- [ ] Skeleton loading
+- [ ]

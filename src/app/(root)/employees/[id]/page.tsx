@@ -1,21 +1,10 @@
-// import React from "react";
-// import { EmployeeService } from "~/server/services/employeeService";
+import { getEmployee } from "~/server/actions/employeeActions";
 
-// const page = async ({ params }: { params: { id: string } }) => {
-//   const employeeId = Number(params.id);
-//   const employee = await EmployeeService.getById(employeeId);
-
-//   return (
-//     <div>
-//       <h1>
-//         {employee?.firstName} {employee?.lastName}
-//       </h1>
-//     </div>
-//   );
-// };
-
-// export default page;
-
-export default function EmployeePage() {
-  return <div>EmployeePage</div>;
+export default async function EmployeePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const employee = await (await getEmployee(Number(params.id))).data;
+  return <div>{employee?.firstName}</div>;
 }

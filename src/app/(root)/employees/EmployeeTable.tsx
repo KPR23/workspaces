@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import type { Employee } from "./columns";
+import type { Employee } from "~/server/db/schema/zod";
 import { getEmployees } from "~/server/actions/employeeActions";
 import { toast } from "sonner";
+import type { ColumnDef } from "@tanstack/react-table";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];
@@ -34,7 +35,7 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
 
   return (
     <DataTable
-      columns={columns}
+      columns={columns as ColumnDef<Employee>[]}
       data={employees}
       onDataChange={refreshEmployees}
       isLoading={isLoading}

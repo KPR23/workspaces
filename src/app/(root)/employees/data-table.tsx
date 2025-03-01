@@ -35,20 +35,21 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import type { Employee } from "~/server/db/schema/zod";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps {
+  columns: ColumnDef<Employee>[];
+  data: Employee[];
   onDataChange: () => void;
   isLoading?: boolean;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable({
   columns,
   data,
   onDataChange,
   isLoading = false,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -132,7 +133,7 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border">
         <div className="w-full">
           <Table className="max-w-screen">
-            <TableHeader>
+            <TableHeader className="h-14">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
@@ -163,15 +164,38 @@ export function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
+                    className="cursor-pointer"
+                    onClick={(e) => {
+                      if (
+                        !e.defaultPrevented &&
+                        !(e.target as HTMLElement).closest(
+                          '[data-no-navigate="true"]',
+                        )
+                      ) {
+                        window.location.href = `/employees/${row.original.id}`;
+                      }
+                    }}
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="px-4">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
+                    {row.getVisibleCells().map((cell) => {
+                      const isSpecialColumn = ["select", "actions"].includes(
+                        cell.column.id,
+                      );
+
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className="px-4"
+                          data-no-navigate={
+                            isSpecialColumn ? "true" : undefined
+                          }
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))
               ) : (
