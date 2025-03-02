@@ -10,13 +10,15 @@ export const employeeSchema = baseSchema.extend({
   id: z.number(),
   firstName: z
     .string()
+    .trim()
     .min(1, { message: "Imię jest wymagane" })
     .max(20, { message: "Imię nie może mieć więcej niż 20 znaków" }),
   lastName: z
     .string()
+    .trim()
     .min(1, { message: "Nazwisko jest wymagane" })
     .max(50, { message: "Nazwisko nie może mieć więcej niż 50 znaków" }),
-  email: z.string().email({ message: "Nieprawidłowy adres e-mail" }),
+  email: z.string().trim().email({ message: "Nieprawidłowy adres e-mail" }),
 });
 
 export const cinemaWeekSchema = baseSchema
@@ -53,6 +55,7 @@ export const createEmployeeSchema = employeeSchema
   .extend({
     firstName: z
       .string()
+      .trim()
       .min(1, { message: "Imię jest wymagane" })
       .max(20, { message: "Imię nie może mieć więcej niż 20 znaków" })
       .regex(/^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż]+$/, {
@@ -60,6 +63,7 @@ export const createEmployeeSchema = employeeSchema
       }),
     lastName: z
       .string()
+      .trim()
       .min(1, { message: "Nazwisko jest wymagane" })
       .max(50, { message: "Nazwisko nie może mieć więcej niż 50 znaków" })
       .regex(/^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż\-]+$/, {
@@ -67,26 +71,34 @@ export const createEmployeeSchema = employeeSchema
       }),
     phone: z
       .string()
+      .trim()
       .min(9, { message: "Numer telefonu musi mieć 9 cyfr" })
       .max(9, { message: "Numer telefonu musi mieć 9 cyfr" })
       .regex(/^\d+$/, { message: "Numer telefonu może zawierać tylko cyfry" }),
     street: z
       .string()
+      .trim()
       .min(1, { message: "Ulica jest wymagana" })
       .max(100, { message: "Nazwa ulicy jest za długa" }),
     houseNumber: z
       .string()
+      .trim()
       .min(1, { message: "Numer domu jest wymagany" })
       .max(10, { message: "Numer domu jest za długi" }),
     apartmentNumber: z
       .string()
+      .trim()
       .max(10, { message: "Numer mieszkania jest za długi" })
       .optional(),
-    postalCode: z.string().regex(/^\d{2}-\d{3}$/, {
-      message: "Nieprawidłowy format kodu pocztowego",
-    }),
+    postalCode: z
+      .string()
+      .trim()
+      .regex(/^\d{2}-\d{3}$/, {
+        message: "Nieprawidłowy format kodu pocztowego",
+      }),
     city: z
       .string()
+      .trim()
       .min(1, { message: "Miasto jest wymagane" })
       .max(100, { message: "Nazwa miasta jest za długa" }),
   });

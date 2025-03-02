@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import type { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,8 +17,8 @@ import {
 import { Input } from "~/components/ui/input";
 import { Card, CardContent } from "~/components/ui/card";
 import { LoadingButton } from "~/components/ui/loading-button";
-import { useTransition } from "react";
 import { createEmployee } from "~/server/actions/employeeActions";
+import { getCityByPostalCode } from "~/server/actions/postalCodeActions";
 import { toast } from "sonner";
 
 type EmployeeFormData = z.infer<typeof createEmployeeSchema>;
@@ -32,6 +32,7 @@ export function EmployeeForm({ onSuccess, onDataChange }: EmployeeFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [isLoadingCity, setIsLoadingCity] = useState(false);
 
   const form = useForm<EmployeeFormData>({
     resolver: zodResolver(createEmployeeSchema),
@@ -315,6 +316,26 @@ export function EmployeeForm({ onSuccess, onDataChange }: EmployeeFormProps) {
                               value = value + "-";
                             }
                             field.onChange(value);
+
+                            // Check if the postal code is valid (XX-XXX format)
+                            if (/^\d{2}-\d{3}$/.test(value)) {
+                              setIsLoadingCity(true);
+                              // Fetch city name based on postal code
+                              startTransition(async () => {
+                                try {
+                                  const result =
+                                    await getCityByPostalCode(value);
+                                  if (result.success && result.data) {
+                                    // Update city field with the fetched city name
+                                    form.setValue("city", result.data);
+                                  }
+                                } catch (error) {
+                                  console.error("Error fetching city:", error);
+                                } finally {
+                                  setIsLoadingCity(false);
+                                }
+                              });
+                            }
                           }}
                           className={cn(
                             "border",
@@ -343,7 +364,9 @@ export function EmployeeForm({ onSuccess, onDataChange }: EmployeeFormProps) {
                             form.formState.errors.city
                               ? "border-destructive"
                               : "border-input",
+                            isLoadingCity ? "opacity-50" : "",
                           )}
+                          disabled
                         />
                       </FormControl>
                       <FormMessage />
