@@ -366,7 +366,7 @@ export function EmployeeForm({ onSuccess, onDataChange }: EmployeeFormProps) {
                               : "border-input",
                             isLoadingCity ? "opacity-50" : "",
                           )}
-                          disabled
+                          disabled={isLoadingCity}
                         />
                       </FormControl>
                       <FormMessage />

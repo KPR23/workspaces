@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Avatar, AvatarFallback } from "~/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import {
@@ -54,6 +54,7 @@ export const columns: ColumnDef<Employee>[] = [
       return (
         <div className="flex items-center">
           <Avatar className="h-8 w-8">
+            <AvatarImage src={row.original.avatar ?? undefined} />
             <AvatarFallback>
               {firstName[0]}
               {lastName[0]}

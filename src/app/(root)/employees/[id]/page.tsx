@@ -1,5 +1,6 @@
 import { getEmployee } from "~/server/actions/employeeActions";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 export default async function EmployeePage({
   params,
@@ -26,7 +27,14 @@ export default async function EmployeePage({
 
     return (
       <div className="p-6">
-        <h1 className="mb-4 text-2xl font-bold">
+        <h1 className="mb-4 flex items-center gap-4 text-2xl font-bold">
+          <Image
+            src={employee.avatar ?? ""}
+            alt="Avatar"
+            width={50}
+            height={50}
+            className="rounded-full"
+          />
           {employee.firstName} {employee.lastName}
         </h1>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

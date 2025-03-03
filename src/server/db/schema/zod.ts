@@ -6,6 +6,30 @@ const baseSchema = z.object({
   updatedAt: z.date(),
 });
 
+// Walidacja avatara
+const avatarSchema = z
+  .string()
+  .refine(
+    (value) => {
+      // Akceptujemy:
+      // 1. URLe zdjęć (http/https)
+      // 2. Base64 encoded images (data:image/)
+      // 3. Ścieżki do plików lokalnych (uploads/)
+      return (
+        value.startsWith("http://") ||
+        value.startsWith("https://") ||
+        value.startsWith("data:image/") ||
+        value.startsWith("uploads/")
+      );
+    },
+    {
+      message:
+        "Nieprawidłowy format zdjęcia. Akceptowane są URLe, base64 lub pliki.",
+    },
+  )
+  .optional()
+  .nullable();
+
 export const employeeSchema = baseSchema.extend({
   id: z.number(),
   firstName: z
@@ -19,6 +43,8 @@ export const employeeSchema = baseSchema.extend({
     .min(1, { message: "Nazwisko jest wymagane" })
     .max(50, { message: "Nazwisko nie może mieć więcej niż 50 znaków" }),
   email: z.string().trim().email({ message: "Nieprawidłowy adres e-mail" }),
+  avatar: avatarSchema,
+  hireDate: z.date(),
 });
 
 export const cinemaWeekSchema = baseSchema
@@ -51,6 +77,7 @@ export const createEmployeeSchema = employeeSchema
     id: true,
     createdAt: true,
     updatedAt: true,
+    hireDate: true,
   })
   .extend({
     firstName: z
@@ -101,6 +128,7 @@ export const createEmployeeSchema = employeeSchema
       .trim()
       .min(1, { message: "Miasto jest wymagane" })
       .max(100, { message: "Nazwa miasta jest za długa" }),
+    avatar: avatarSchema,
   });
 
 export const createCinemaWeekSchema = z

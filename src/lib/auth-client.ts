@@ -8,6 +8,7 @@ import {
   oneTapClient,
   oidcClient,
   genericOAuthClient,
+  magicLinkClient,
 } from "better-auth/client/plugins";
 import { toast } from "sonner";
 
@@ -32,6 +33,7 @@ export const client = createAuthClient({
     }),
     oidcClient(),
     genericOAuthClient(),
+    magicLinkClient(),
   ],
   fetchOptions: {
     onError(e) {

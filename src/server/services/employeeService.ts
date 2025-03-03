@@ -1,5 +1,8 @@
 import { db } from "~/server/db/db";
-import { employees as employeesTable } from "~/server/db/schema/employee";
+import {
+  employees as employeesTable,
+  generateInitialsAvatarUrl,
+} from "~/server/db/schema/employee";
 import { availability as availabilityTable } from "~/server/db/schema/availability";
 import { eq } from "drizzle-orm";
 import { createEmployeeSchema } from "~/server/db/schema/zod";
@@ -37,6 +40,14 @@ export class EmployeeService {
     try {
       const validatedData = createEmployeeSchema.parse(data);
 
+      // Generuj domyślny awatar z inicjałami, jeśli nie podano własnego
+      const avatar =
+        validatedData.avatar ??
+        generateInitialsAvatarUrl(
+          validatedData.firstName,
+          validatedData.lastName,
+        );
+
       const [employee] = await db
         .insert(employeesTable)
         .values({
@@ -49,6 +60,7 @@ export class EmployeeService {
               ? `/${validatedData.apartmentNumber}`
               : ""
           }, ${validatedData.postalCode} ${validatedData.city}`,
+          avatar,
         })
         .returning();
 
